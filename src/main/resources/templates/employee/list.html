@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admincast bootstrap 4 & Dashboard</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/assets/vendors/themify-icons/css/themify-icons.css" rel="stylesheet" />
+    <!-- PLUGINS STYLES-->
+    <link href="/assets/vendors/jvectormap/jquery-jvectormap-2.0.3.css" rel="stylesheet" />
+    <!-- THEME STYLES-->
+    <link href="/assets/css/main.min.css" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+</head>
+<body>
+<th:block th:replace="layoutadmin :: header"></th:block>
+<th:block th:replace="layoutadmin :: sidebar"></th:block>
+<div class="container">
+    <a th:href="@{/employees/add}" class="btn btn-primary">Thêm nhân viên mới</a>
+    <h1>Danh sách nhân viên nhân viên</h1>
+    <table class="table table-striped">
+        <tr class="table-primary">
+            <th>ID</th>
+            <th>Họ</th>
+            <th>Tên</th>
+            <th>Giới tính</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Chức vụ</th>
+            <th>Lương(theo giờ)</th>
+            <th>Hành động</th>
+        </tr>
+        <tr class="table-warning" th:each="employee : ${employees}">
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.sex}"></td>
+            <td th:text="${employee.email}"></td>
+            <td th:text="${employee.phoneNumber}"></td>
+            <td th:text="${employee.position.title}"></td>
+            <td th:text="${employee.salary}"></td>
+            <td>
+                <a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="btn btn-success">Sửa</a> |
+                <a th:href="@{/employees/delete/{id}(id=${employee.id})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<th:block th:replace="layoutadmin :: footer"></th:block>
+
+<script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/metisMenu/dist/metisMenu.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<!-- PAGE LEVEL PLUGINS-->
+<script src="/assets/vendors/chart.js/dist/Chart.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/jvectormap/jquery-jvectormap-2.0.3.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+<script src="/assets/vendors/jvectormap/jquery-jvectormap-us-aea-en.js" type="text/javascript"></script>
+<!-- CORE SCRIPTS-->
+<script src="assets/js/app.min.js" type="text/javascript"></script>
+<!-- PAGE LEVEL SCRIPTS-->
+<script src="/assets/js/scripts/dashboard_1_demo.js" type="text/javascript"></script>
+</body>
+</html>
