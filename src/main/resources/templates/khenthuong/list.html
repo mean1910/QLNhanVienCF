@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admincast bootstrap 4 & Dashboard</title>
+    <title>Khen thưởng</title>
     <!-- GLOBAL MAINLY STYLES-->
     <link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -19,32 +20,31 @@
 <th:block th:replace="layoutadmin :: header"></th:block>
 <th:block th:replace="layoutadmin :: sidebar"></th:block>
 <div class="container">
-    <a th:href="@{/employees/add}" class="btn btn-primary">Thêm nhân viên mới</a>
-    <h1>Danh sách nhân viên</h1>
+    <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/khenthuongs/add}" class="btn btn-primary">Thêm Khen Thưởng</a>
+    <br>
+    <h1>Danh sách khen thưởng</h1>
     <table class="table table-striped">
         <tr class="table-primary">
             <th>ID</th>
-            <th>Tên</th>
-            <th>Họ</th>
-            <th>Giới tính</th>
-            <th>Email</th>
-            <th>Số điện thoại</th>
-            <th>Chức vụ</th>
-            <th>Lương(theo giờ)</th>
-            <th>Hành động</th>
+            <th>Mã nhân viên</th>
+            <th>Họ nhân viên</th>
+            <th>Tên nhân viên</th>
+            <th>Lý do</th>
+            <th>Ngày quyết định</th>
+            <th>Số tiền</th>
+            <th sec:authorize="hasAnyAuthority('ADMIN')">Hành động</th>
         </tr>
-        <tr class="table-warning" th:each="employee : ${employees}">
-            <td th:text="${employee.id}"></td>
-            <td th:text="${employee.firstName}"></td>
-            <td th:text="${employee.lastName}"></td>
-            <td th:text="${employee.sex}"></td>
-            <td th:text="${employee.email}"></td>
-            <td th:text="${employee.phoneNumber}"></td>
-            <td th:text="${employee.position.title}"></td>
-            <td th:text="${employee.salary}"></td>
-            <td>
-                <a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="btn btn-success">Sửa</a> |
-                <a th:href="@{/employees/delete/{id}(id=${employee.id})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
+        <tr class="table-warning" th:each="khenthuong : ${khenThuongs}">
+            <td th:text="${khenthuong.id}"></td>
+            <td th:text="${khenthuong.employee.id}"></td>
+            <td th:text="${khenthuong.employee.lastName}"></td>
+            <td th:text="${khenthuong.employee.firstName}"></td>
+            <td th:text="${khenthuong.lyDo}"></td>
+            <td th:text="${khenthuong.ngay}"></td>
+            <td th:text="${khenthuong.soTien}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">
+                <a th:href="@{/khenthuongs/edit/{id}(id=${khenthuong.id})}" class="btn btn-success">Sửa</a> |
+                <a th:href="@{/khenthuongs/delete/{id}(id=${khenthuong.id})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
             </td>
         </tr>
     </table>

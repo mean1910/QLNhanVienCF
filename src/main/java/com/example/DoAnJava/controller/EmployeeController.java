@@ -42,6 +42,11 @@ public class EmployeeController {
             model.addAttribute("positions", positionService.getAllPositions());
             return "employee/add";
         }
+        if (employeeService.isEmailExistsForOtherEmployee(employee.getId(), employee.getEmail())) {
+            result.rejectValue("email", "error.employee", "Email đã tồn tại.");
+            model.addAttribute("positions", positionService.getAllPositions());
+            return "employee/edit";
+        }
         employeeService.addEmployee(employee);
         return "redirect:/employees";
     }
@@ -59,7 +64,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/edit")
-    public String editEmployee(@ModelAttribute("employee") Employee updateEmployee) {
+    public String editEmployee(@Valid  @ModelAttribute("employee") Employee updateEmployee,BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("positions", positionService.getAllPositions());
+            return "employee/edit";
+        }
         employeeService.updateEmployee(updateEmployee);
         return "redirect:/employees";
     }

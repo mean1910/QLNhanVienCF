@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admincast bootstrap 4 & Dashboard</title>
+    <title>Chi Tiết Ca Làm Việc</title>
     <!-- GLOBAL MAINLY STYLES-->
     <link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -19,8 +19,19 @@
 <th:block th:replace="layoutadmin :: header"></th:block>
 <th:block th:replace="layoutadmin :: sidebar"></th:block>
 <div class="container">
-    <a th:href="@{/employees/add}" class="btn btn-primary">Thêm nhân viên mới</a>
-    <h1>Danh sách nhân viên</h1>
+    <form th:action="@{/calamviecs/chitiet/add}" method="post" th:object="${chiTietCaLamViec}">
+        <input type="hidden" th:name="calamviecId" th:value="${calamviecId}"/>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="employee">Nhân viên:</label>
+            <select id="employee" th:field="*{employee.id}">
+                <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.lastName + ' ' + employee.firstName}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm nhân viên</button>
+        <div class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+    </form>
+    </form>
+    <h1>Danh sách nhân viên trong ca làm việc</h1>
     <table class="table table-striped">
         <tr class="table-primary">
             <th>ID</th>
@@ -33,23 +44,22 @@
             <th>Lương(theo giờ)</th>
             <th>Hành động</th>
         </tr>
-        <tr class="table-warning" th:each="employee : ${employees}">
-            <td th:text="${employee.id}"></td>
-            <td th:text="${employee.firstName}"></td>
-            <td th:text="${employee.lastName}"></td>
-            <td th:text="${employee.sex}"></td>
-            <td th:text="${employee.email}"></td>
-            <td th:text="${employee.phoneNumber}"></td>
-            <td th:text="${employee.position.title}"></td>
-            <td th:text="${employee.salary}"></td>
+        <tr class="table-warning" th:each="chitiet : ${chiTietCaLamViecs}">
+            <td th:text="${chitiet.employee.id}"></td>
+            <td th:text="${chitiet.employee.firstName}"></td>
+            <td th:text="${chitiet.employee.lastName}"></td>
+            <td th:text="${chitiet.employee.sex}"></td>
+            <td th:text="${chitiet.employee.email}"></td>
+            <td th:text="${chitiet.employee.phoneNumber}"></td>
+            <td th:text="${chitiet.employee.position.title}"></td>
+            <td th:text="${chitiet.employee.salary}"></td>
             <td>
-                <a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="btn btn-success">Sửa</a> |
-                <a th:href="@{/employees/delete/{id}(id=${employee.id})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
+                <a th:href="@{/calamviecs/deletenv/{id}(id=${chitiet.id}, calamviecId=${calamviecId})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
             </td>
         </tr>
     </table>
+    <a href="/calamviecs">Quay lại danh sách ca làm việc</a>
 </div>
-<th:block th:replace="layoutadmin :: footer"></th:block>
 
 <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="/assets/vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>

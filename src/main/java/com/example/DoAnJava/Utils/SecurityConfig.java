@@ -39,7 +39,7 @@ public class SecurityConfig {
         return auth;
     }
 
-    @Bean
+    /*@Bean
     @Order(2147483642)
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> {
@@ -48,19 +48,21 @@ public class SecurityConfig {
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
         return (SecurityFilterChain)http.build();
-    }
-   /* @Bean
+    }*/
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/", "/register", "/error")
+                        .requestMatchers("/css/**","/assets/**", "/js/**",   "/error")
                         .permitAll()
                         .requestMatchers("/employees/edit", "/employees/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/employees", "/employees/add")
                         .hasAnyAuthority("ADMIN")
-                        .requestMatchers("/api/**")
-                        .hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/register")
+                        .hasAnyAuthority("ADMIN")
+                        .requestMatchers("/","/api/**")
+                        .hasAnyAuthority("ADMIN", "NHANVIEN")
                         .anyRequest().authenticated()
                 )
 
@@ -73,7 +75,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe.key("uniqueAndSecret")
@@ -83,5 +85,5 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.accessDeniedPage("/403"))
                 .build();
-    }*/
+    }
 }

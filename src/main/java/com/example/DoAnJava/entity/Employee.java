@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "employees")
@@ -39,4 +41,16 @@ public class Employee {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @VaLidUserId
     private User  user;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<KhenThuong> khenThuongs;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<KyLuat> kyLuats;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ChiTietCaLamViec> chiTietCaLamViecs;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BangLuong> bangLuongs;
 }

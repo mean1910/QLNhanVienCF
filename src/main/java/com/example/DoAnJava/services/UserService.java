@@ -16,7 +16,7 @@ public class UserService {
     {
         userRepository.save(user);
         Long userId = userRepository.getUserIdByUserName(user.getUsername());
-        Long roleId = roleRepository.getRoleIdByName("USER");
+        Long roleId = roleRepository.getRoleIdByName("NHANVIEN");
         if(roleId != 0 && userId != 0){
             userRepository.addRoleToUser(userId,roleId);
         }

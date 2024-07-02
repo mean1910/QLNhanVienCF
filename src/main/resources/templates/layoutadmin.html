@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,12 +23,6 @@
     <!-- START HEADER-->
     <header th:fragment="header" class="header">
         <div class="page-brand">
-            <a class="link" href="index.html">
-                    <span class="brand">Admin
-                        <span class="brand-tip">PAGE</span>
-                    </span>
-                <span class="brand-mini">AP</span>
-            </a>
         </div>
         <div class="flexbox flex-1">
             <!-- START TOP-LEFT TOOLBAR-->
@@ -168,7 +163,10 @@
                         <a class="dropdown-item" href="profile.html"><i class="fa fa-cog"></i>Settings</a>
                         <a class="dropdown-item" href="javascript:;"><i class="fa fa-support"></i>Support</a>
                         <li class="dropdown-divider"></li>
-                        <a class="dropdown-item" href="login.html"><i class="fa fa-power-off"></i>Logout</a>
+                        <form class="dropdown-item btn" th:action="@{/logout}" method="post">
+                            <i class="fa fa-power-off"></i>
+                            <button class="btn btn-outline-danger" type="submit">Logout</button>
+                        </form>
                     </ul>
                 </li>
             </ul>
@@ -184,7 +182,7 @@
                     <img src="/assets/img/admin-avatar.png" width="45px" />
                 </div>
                 <div class="admin-info">
-                    <div class="font-strong">James Brown</div><small>Administrator</small></div>
+                    <div class="font-strong" th:text="${username}">James Brown</div><small>Administrator</small></div>
             </div>
             <ul class="side-menu metismenu">
                 <li>
@@ -226,7 +224,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li sec:authorize="hasAnyAuthority('ADMIN')">
                     <a href="javascript:;"><i class="sidebar-item-icon fa fa-edit"></i>
                         <span class="nav-label">Quản lý nhân viên</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">
@@ -236,46 +234,69 @@
                         <li>
                             <a href="/employees/add">Thêm nhân viên</a>
                         </li>
+                        <li>
+                            <a href="/register">Tạo tài khoản nhân viên</a>
+                        </li>
                     </ul>
                 </li>
-                <li>
+                <li sec:authorize="hasAnyAuthority('ADMIN')">
                     <a href="javascript:;"><i class="sidebar-item-icon fa fa-table"></i>
-                        <span class="nav-label">Tables</span><i class="fa fa-angle-left arrow"></i></a>
+                        <span class="nav-label">Khen Thưởng -Kỷ Luật</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">
                         <li>
-                            <a href="table_basic.html">Basic Tables</a>
+                            <a href="/khenthuongs">Danh sách khen thưởng</a>
                         </li>
                         <li>
-                            <a href="datatables.html">Datatables</a>
+                            <a href="/kyluats">Danh sách kỷ luật</a>
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li sec:authorize="hasAnyAuthority('ADMIN')">
                     <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
-                        <span class="nav-label">Charts</span><i class="fa fa-angle-left arrow"></i></a>
+                        <span class="nav-label">Quản Lý Ca</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">
                         <li>
-                            <a href="charts_flot.html">Flot Charts</a>
+                            <a href="/calamviecs">Danh sách ca làm việc</a>
                         </li>
                         <li>
-                            <a href="charts_morris.html">Morris Charts</a>
-                        </li>
-                        <li>
-                            <a href="chartjs.html">Chart.js</a>
-                        </li>
-                        <li>
-                            <a href="charts_sparkline.html">Sparkline Charts</a>
+                            <a href="/calamviecs/add">Thêm ca làm việc</a>
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li sec:authorize="hasAnyAuthority('ADMIN')">
                     <a href="javascript:;"><i class="sidebar-item-icon fa fa-map"></i>
-                        <span class="nav-label">Maps</span><i class="fa fa-angle-left arrow"></i></a>
+                        <span class="nav-label">Quản Lý Lương</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">
                         <li>
-                            <a href="maps_vector.html">Vector maps</a>
+                            <a href="/bangluongs">Bảng Lương</a>
+                        </li>
+                        <li>
+                            <a href="/bangluongs/tinhluong">Tính lương nhân viên</a>
                         </li>
                     </ul>
+                </li>
+                <li sec:authorize="hasAnyAuthority('NHANVIEN')">
+                    <a th:href="@{/calamviecs/{employeeEmail}(employeeEmail=${email})}">
+                        <i class="sidebar-item-icon fa fa-smile-o"></i>
+                        <span class="nav-label">Ca Làm Việc</span>
+                    </a>
+                </li>
+                <li sec:authorize="hasAnyAuthority('NHANVIEN')">
+                    <a th:href="@{/khenthuongs/{employeeEmail}(employeeEmail=${email})}">
+                        <i class="sidebar-item-icon fa fa-smile-o"></i>
+                        <span class="nav-label">Khen Thưởng</span>
+                    </a>
+                </li>
+                <li sec:authorize="hasAnyAuthority('NHANVIEN')">
+                    <a th:href="@{/kyluats/{employeeEmail}(employeeEmail=${email})}">
+                        <i class="sidebar-item-icon fa fa-smile-o"></i>
+                        <span class="nav-label">Kỷ Luật</span>
+                    </a>
+                </li>
+                <li sec:authorize="hasAnyAuthority('NHANVIEN')">
+                    <a th:href="@{/bangluongs/{employeeEmail}(employeeEmail=${email})}"><i class="sidebar-item-icon fa fa-smile-o"></i>
+                        <span class="nav-label">Bảng Lương</span>
+                    </a>
                 </li>
                 <li>
                     <a href="icons.html"><i class="sidebar-item-icon fa fa-smile-o"></i>

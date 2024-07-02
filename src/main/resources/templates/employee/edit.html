@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admincast bootstrap 4 & Dashboard</title>
+  <title>Edit nhân viên</title>
   <!-- GLOBAL MAINLY STYLES-->
   <link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -21,6 +21,7 @@
 <div class="container">
   <h2>Sửa nhân viên</h2>
   <form th:action="@{/employees/edit}" th:object="${employee}" method="post">
+    <input type="hidden" th:field="*{id}">
     <div class="col-6 mb-3">
       <label class="form-label" for="firstName">Tên:</label>
       <input class="form-control" type="text" id="firstName" th:field="*{firstName}">
