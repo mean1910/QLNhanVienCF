@@ -5,6 +5,9 @@ import com.example.DoAnJava.entity.Employee;
 import com.example.DoAnJava.repository.ChiTietCaLamViecRepository;
 import com.example.DoAnJava.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,5 +52,24 @@ public class EmployeeService {
     }
     public List<CaLamViec> getCaLamViecsByEmployeeId(Long employeeId) {
         return chiTietCaLamViecRepository.findCaLamViecsByEmployeeId(employeeId);
+    }
+
+    public Page<Employee> getEmployees(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return employeeRepository.findAll(pageable);
+    }
+
+    //    public Page<Employee> searchEmployeesByName(String name, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return employeeRepository.findByFirstNameOrLastName(name, name, pageable);
+//    }
+    public Page<Employee> searchEmployeesByName(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return employeeRepository.findByFirstNameOrLastName(keyword, pageable);
+    }
+
+    public Page<Employee> filterEmployeesByPosition(String position, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return employeeRepository.findByPosition_title(position, pageable);
     }
 }

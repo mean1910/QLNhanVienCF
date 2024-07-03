@@ -5,6 +5,7 @@ import com.example.DoAnJava.services.EmployeeService;
 import com.example.DoAnJava.services.PositionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,9 +24,23 @@ public class EmployeeController {
     private PositionService positionService;
 
     @GetMapping
-    public String showAllEmployees(Model model) {
-        List<Employee> employees = employeeService.getAllEmployees();
-        model.addAttribute("employees", employees);
+    public String showAllEmployees(Model model,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "4") int size,
+                                   @RequestParam(defaultValue = "") String search,
+                                   @RequestParam(defaultValue = "") String position) {
+        Page<Employee> employeePage;
+        if (!search.isEmpty()) {
+            employeePage = employeeService.searchEmployeesByName(search, page, size);
+        } else if (!position.isEmpty()) {
+            employeePage = employeeService.filterEmployeesByPosition(position, page, size);
+        } else {
+            employeePage = employeeService.getEmployees(page, size);
+        }
+        model.addAttribute("employeePage", employeePage);
+        model.addAttribute("search", search);
+        model.addAttribute("position", position);
+        model.addAttribute("positions", positionService.getAllPositions());
         return "employee/list";
     }
 

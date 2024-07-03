@@ -47,7 +47,7 @@
             <td th:text="${bangluong.ungTruoc}"></td>
             <td th:text="${bangluong.thucLanh}"></td>
             <td sec:authorize="hasAnyAuthority('ADMIN')">
-                <a th:href="@{/bangluongs/delete/{id}(id=${bangluong.id})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
+                <a th:href="@{/bangluongs/delete/{id}(id=${bangluong.id})}" onclick="return confirm('Bạn có chắc chắn muốn xóa ?')" class="btn btn-danger">Xóa</a>
             </td>
         </tr>
     </table>

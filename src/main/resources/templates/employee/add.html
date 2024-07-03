@@ -32,8 +32,15 @@
             <div class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Tên lỗi</div>
         </div>
         <div class="col-6 mb-3">
-            <label class="form-label" for="sex">Giới tính:</label>
-            <input class="form-control" type="text" id="sex" th:field="*{sex}">
+            <label class="form-label">Giới tính:</label>
+            <div>
+                <input type="radio" id="Nam" name="sex" th:field="*{sex}" value="Nam">
+                <label for="Nam">Nam</label>
+            </div>
+            <div>
+                <input type="radio" id="Nu" name="sex" th:field="*{sex}" value="Nữ">
+                <label for="Nu">Nữ</label>
+            </div>
             <div class="text-danger" th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}">Tên lỗi</div>
         </div>
         <div class="col-6 mb-3">

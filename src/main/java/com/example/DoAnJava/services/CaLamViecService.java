@@ -18,10 +18,14 @@ public class CaLamViecService {
     public List<CaLamViec> getAllCaLamViecs() {
         return caLamViecRepository.findAll();
     }
+    public List<CaLamViec> getAllCaLamViecsOrderedByNgayDesc() {
+        return caLamViecRepository.findAllByOrderByNgayDesc();
+    }
 
     public Optional<CaLamViec> getCaLamViecById(Long id) {
         return caLamViecRepository.findById(id);
     }
+
     public CaLamViec addCaLamViec(CaLamViec caLamViec) {
         return caLamViecRepository.save(caLamViec);
     }

@@ -21,10 +21,10 @@
 <th:block th:replace="layoutadmin :: sidebar"></th:block>
 <div class="content">
     <div class="brand">
-        <a class="link" href="index.html">Đăng Ký</a>
+        <a class="link" href="index.html">From đăng ký</a>
     </div>
     <form th:action="@{/register}" th:object="${user}" method="post">
-        <h2 class="login-title">Sign Up</h2>
+        <h2 class="login-title">Đăng Ký</h2>
         <div class="form-group">
             <label for="name" class="form-label">Họ tên nhân viên:</label>
             <input  type="text" class="form-control" th:field="*{name}" id="name" placeholder="Họ Tên">

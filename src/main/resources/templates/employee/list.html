@@ -19,7 +19,28 @@
 <th:block th:replace="layoutadmin :: header"></th:block>
 <th:block th:replace="layoutadmin :: sidebar"></th:block>
 <div class="container">
-    <a th:href="@{/employees/add}" class="btn btn-primary">Thêm nhân viên mới</a>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <a th:href="@{/employees/add}" class="btn btn-primary">Thêm nhân viên mới</a>
+        </div>
+        <div class="col-md-4">
+            <form th:action="@{/employees}" method="get" class="form-inline">
+                <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm nhân viên" th:value="${search}">
+                <button type="submit" class="btn btn-secondary">Tìm kiếm</button>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <form th:action="@{/employees}" method="get" class="form-inline">
+                <select name="position" class="form-control mr-2">
+                    <option value="">Chọn chức vụ</option>
+                    <option th:each="pos : ${positions}" th:value="${pos.title}" th:text="${pos.title}"></option>
+                </select>
+                <button type="submit" class="btn btn-secondary">Lọc</button>
+            </form>
+        </div>
+    </div>
+
     <h1>Danh sách nhân viên</h1>
     <table class="table table-striped">
         <tr class="table-primary">
@@ -33,21 +54,34 @@
             <th>Lương(theo giờ)</th>
             <th>Hành động</th>
         </tr>
-        <tr class="table-warning" th:each="employee : ${employees}">
+        <tr class="table-warning" th:each="employee : ${employeePage.content}">
             <td th:text="${employee.id}"></td>
             <td th:text="${employee.firstName}"></td>
             <td th:text="${employee.lastName}"></td>
-            <td th:text="${employee.sex}"></td>
+            <td>
+                <img height="45" width="60" th:src="@{/images/nam.jpg}" th:if="${employee.sex == 'Nam'}"/>
+                <img height="45" width="60" th:src="@{/images/nu2.png}" th:if="${employee.sex == 'Nữ'}"/>
+            </td>
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>
             <td th:text="${employee.position.title}"></td>
             <td th:text="${employee.salary}"></td>
             <td>
                 <a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="btn btn-success">Sửa</a> |
-                <a th:href="@{/employees/delete/{id}(id=${employee.id})}" onclick="return confirm('Are you sure?')" class="btn btn-danger">Xóa</a>
+                <a th:href="@{/employees/delete/{id}(id=${employee.id})}" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?')" class="btn btn-danger">Xóa</a>
             </td>
         </tr>
     </table>
+
+    <div>
+        <span th:if="${employeePage.hasPrevious()}">
+            <a th:href="@{/employees(page=${employeePage.number - 1}, size=${employeePage.size})}">Previous</a>
+        </span>
+        <span>Page <span th:text="${employeePage.number + 1}">1</span> of <span th:text="${employeePage.totalPages}">1</span></span>
+        <span th:if="${employeePage.hasNext()}">
+            <a th:href="@{/employees(page=${employeePage.number + 1}, size=${employeePage.size})}">Next</a>
+        </span>
+    </div>
 </div>
 <th:block th:replace="layoutadmin :: footer"></th:block>
 

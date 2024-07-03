@@ -31,7 +31,7 @@ public class CaLamViecController {
 
     @GetMapping
     public String getAllCaLamViecs(Model model) {
-        List<CaLamViec> caLamViecs = caLamViecService.getAllCaLamViecs();
+        List<CaLamViec> caLamViecs = caLamViecService.getAllCaLamViecsOrderedByNgayDesc();
         model.addAttribute("caLamViecs", caLamViecs);
         return "calamviec/list";
     }

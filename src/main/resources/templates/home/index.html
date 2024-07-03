@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +21,8 @@
 <th:block th:replace="layoutadmin :: sidebar"></th:block>
 <div class="container">
     <br>
-    <h1 style="text-align: center;"> CHÀO MỪNG ĐẾN VỚI TRANG QUẢN TRỊ </h1>
+    <h1 sec:authorize="hasAnyAuthority('ADMIN')" style="text-align: center;"> CHÀO MỪNG ĐẾN VỚI TRANG QUẢN TRỊ </h1>
+    <h1 sec:authorize="hasAnyAuthority('NHANVIEN')" style="text-align: center;"> CHÀO MỪNG ĐẾN VỚI TRANG NHÂN VIÊN </h1>
 </div>
 <th:block th:replace="layoutadmin :: footer"></th:block>
 
